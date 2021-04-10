@@ -24,7 +24,6 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text("riverpod with firebase"),
       ),
       body: Center(
