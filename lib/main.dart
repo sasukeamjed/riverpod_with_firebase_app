@@ -1,4 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:riverpod_with_firebase_app/auth_page.dart';
+import 'package:riverpod_with_firebase_app/auth_services/auth.dart';
+
+import 'home.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,36 +18,34 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: StartPage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class StartPage extends StatelessWidget {
+
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("riverpod with firebase"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '3',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
+    return FutureBuilder(
+      future: _initialization,
+      builder: (BuildContext context, snapshot){
+        if(snapshot.connectionState == ConnectionState.done){
+          return AuthPage();
+        }
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
-
 }
+
+
+
 
 
